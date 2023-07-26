@@ -16,17 +16,37 @@ class Rover {
     this.generatorWatts = 110;
   }
     // create receiveMessage(message) method
-  recieveMessage(message){
+  receiveMessage(message){
     // let newCommands = message.commands
-    for(commands in message){
-      
-    }
-  };
+
+      // create response object, and set its message property (Test 8)
+    let results = [];
+    // let data = {};
+    let body = message.name
+    for(let i = 0; i < message.commands.length; i ++){
+      // results.push(message.commands[i]);
+      if(message.commands[i].commandType === 'STATUS_CHECK'){
+        // data['completed'] = true;
+        // data['roverStatus'] = Rover();
+        results.push({completed: true, roverStatus: {mode: this.mode, position: this.position, generatorWatts: this.generatorWatts,}});
+      }else if(message.commands[i].commandType === 'MODE_CHANGE'){
+        console.log('--------------------------2')
+        console.log(message.commands[i].value)
+        results.push({completed: true, roverStatus: {mode: message.commands[i].value, position: this.position, generatorWatts: this.generatorWatts,}});
+      }else if(message.commands[i].commandType === 'MOVE'){
+        if(this.mode === 'LOW_POWER'){
+        results.push({completed: false});
+        }else{
+          results.push({completed: true, roverStatus: {mode: this.mode, position: this.position, generatorWatts: this.generatorWatts,}});
+        }
+      }
+    };
+    
+    return {body,results}
+  }
 
 
-    // create response object, and set its message property (Test 8)
-
-    // add a results property to response object, as an empty array (Test 9)
+      // add a results property to response object, as an empty array (Test 9)
 
     // for each command in the message, add an item to the results array (Test 9)
 
