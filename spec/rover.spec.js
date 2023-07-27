@@ -77,9 +77,10 @@ describe("Rover class", function() {
     let response = rover.receiveMessage(message);
     // verify that response.results contains the correct object 
     let singleLine = response.results[0];
+    // console.log(singleLine)
     // verify that the rover's mode property was updated 
     expect(singleLine.completed).toEqual(true);
-    expect(singleLine.roverStatus.mode).toEqual(rover.mode);
+    expect(singleLine.roverStatus.mode).toEqual('LOW_POWER');
   });
 
   // Test 12
@@ -93,13 +94,13 @@ describe("Rover class", function() {
     // send a message+command to attempt to MOVE the rover
     // let commands2 = [new Command('MOVE', 9)];
     // let message2 = new Message('Test message with two commands', commands2);
-    console.log('Mode Change next  ---------------------')
+    // console.log('Mode Change next  ---------------------')
     let response = rover.receiveMessage(message);
     // let response2 = rover.receiveMessage(message2);
-    console.log(message);
+    // console.log(message);
     // console.log(response);
     // console.log(response2);
-    let singleLine = response.results[0];
+    let singleLine = response.results[1];
     // console.log(singleLine);
     // verify that the given result object has completed === false
     expect(singleLine.completed).toEqual(false);
@@ -107,17 +108,20 @@ describe("Rover class", function() {
     // expect(singleLine.roverStatus.position).toEqual(42);
   });
 
-//   // Test 13
-//   it("responds with position for move command", function(){
+  // Test 13
+  it("responds with position for move command", function(){
 
-//     // build a rover, and also build a message with a MOVE command
-
-//     // send the message to the rover
-
-//     // verify that the result object has completed === false
-
-//     // verify that the rover has the correct position value 
-    
-//   });
+    // build a rover, and also build a message with a MOVE command
+    let rover = new Rover(42);
+    // send the message to the rover
+    let commands = [new Command('MOVE', 9)];
+    let message = new Message('Test message with two commands', commands);
+    let response = rover.receiveMessage(message);
+    let singleLine = response.results[0];
+    // verify that the result object has completed === false
+// console.log(singleLine);
+    // verify that the rover has the correct position value 
+    expect(singleLine.roverStatus.position).toEqual(9);
+  });
 
 });

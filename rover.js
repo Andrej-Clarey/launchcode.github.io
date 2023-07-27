@@ -17,31 +17,31 @@ class Rover {
   }
     // create receiveMessage(message) method
   receiveMessage(message){
-    // let newCommands = message.commands
-
-      // create response object, and set its message property (Test 8)
     let results = [];
-    // let data = {};
     let body = message.name
     for(let i = 0; i < message.commands.length; i ++){
-      // results.push(message.commands[i]);
       if(message.commands[i].commandType === 'STATUS_CHECK'){
-        // data['completed'] = true;
-        // data['roverStatus'] = Rover();
         results.push({completed: true, roverStatus: {mode: this.mode, position: this.position, generatorWatts: this.generatorWatts,}});
       }else if(message.commands[i].commandType === 'MODE_CHANGE'){
-        console.log('--------------------------2')
-        console.log(message.commands[i].value)
         results.push({completed: true, roverStatus: {mode: message.commands[i].value, position: this.position, generatorWatts: this.generatorWatts,}});
+        this.mode = message.commands[i].value
+        // console.log(message.commands[i].commandType);
       }else if(message.commands[i].commandType === 'MOVE'){
+        // console.log("###################")
         if(this.mode === 'LOW_POWER'){
-        results.push({completed: false});
+          // console.log("###################")
+        results.push({completed: false, roverStatus: {mode: this.mode, position: this.position, generatorWatts: this.generatorWatts,}});
+        // console.log(results)
         }else{
-          results.push({completed: true, roverStatus: {mode: this.mode, position: this.position, generatorWatts: this.generatorWatts,}});
+          results.push({completed: true, roverStatus: {mode: this.mode, position: message.commands[i].value, generatorWatts: this.generatorWatts,}});
+          // console.log(message.commands[i]);
+          // console.log(message.commands[i].position);
+          // this.position = message.commands[i].position
         }
       }
+     
     };
-    
+    // console.log({body, results});
     return {body,results}
   }
 
