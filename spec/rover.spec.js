@@ -23,11 +23,11 @@ describe("Rover class", function() {
 
   // Test 8
   it("response returned by receiveMessage contains name of message", function(){
-    let message = new Message("MSG005", []);
+    let messages = new Message("MSG005", []);
     let rover = new Rover(42);
-    let response = rover.receiveMessage(message);
+    let response = rover.receiveMessage(messages);
     // console.log(response);
-      expect(response.body).toEqual("MSG005");
+      expect(response.message).toEqual("MSG005");
     // verify that response.message has the correct value
   });
 
@@ -37,9 +37,9 @@ describe("Rover class", function() {
     // build test objects: 1) Message w/ 2 commands and 2) a rover
     let commands = [new Command('MODE_CHANGE', 'LOW_POWER'), new Command('STATUS_CHECK')];
     let rover = new Rover(42);
-    let message = new Message('Test message with two commands', commands);
+    let messages = new Message('Test message with two commands', commands);
     // pass the message to the rover by calling rover.receiveMessage
-    let response = rover.receiveMessage(message);
+    let response = rover.receiveMessage(messages);
     // verify that response.results.length is 2
     // console.log(response.results.length);
     expect(response.results.length).toEqual(2);
@@ -51,9 +51,9 @@ describe("Rover class", function() {
     // build test objects: 1) Message w/ STATUS_CHECK command and 2) a rover
     let rover = new Rover(42);
     let commands = [new Command('STATUS_CHECK')];
-    let message = new Message('Test message with two commands', commands);
+    let messages = new Message('Test message with two commands', commands);
     // pass the message to the rover by calling rover.receiveMessage
-    let response = rover.receiveMessage(message);
+    let response = rover.receiveMessage(messages);
     // verify response.results:
     //   - get the single item (the result) from the array
     let singleLine = response.results[0];
@@ -72,9 +72,9 @@ describe("Rover class", function() {
     // build test objects: 1) Message w/ MODE_CHANGE command and 2) a rover
     let rover = new Rover(42);
     let commands = [new Command('MODE_CHANGE', 'LOW_POWER')];
-    let message = new Message('Test message with two commands', commands);
+    let messages = new Message('Test message with two commands', commands);
         // pass the message to the rover by calling rover.receiveMessage
-    let response = rover.receiveMessage(message);
+    let response = rover.receiveMessage(messages);
     // verify that response.results contains the correct object 
     let singleLine = response.results[0];
     // console.log(singleLine)
@@ -90,12 +90,12 @@ describe("Rover class", function() {
     let rover = new Rover(42);
     // send a message+command to change into LOW_POWER mode
     let commands = [new Command('MODE_CHANGE', 'LOW_POWER'), new Command('MOVE', 9)];
-    let message = new Message('Test message with two commands', commands);
+    let messages = new Message('Test message with two commands', commands);
     // send a message+command to attempt to MOVE the rover
     // let commands2 = [new Command('MOVE', 9)];
     // let message2 = new Message('Test message with two commands', commands2);
     // console.log('Mode Change next  ---------------------')
-    let response = rover.receiveMessage(message);
+    let response = rover.receiveMessage(messages);
     // let response2 = rover.receiveMessage(message2);
     // console.log(message);
     // console.log(response);
@@ -115,8 +115,8 @@ describe("Rover class", function() {
     let rover = new Rover(42);
     // send the message to the rover
     let commands = [new Command('MOVE', 9)];
-    let message = new Message('Test message with two commands', commands);
-    let response = rover.receiveMessage(message);
+    let messages = new Message('Test message with two commands', commands);
+    let response = rover.receiveMessage(messages);
     let singleLine = response.results[0];
     // verify that the result object has completed === false
 // console.log(singleLine);

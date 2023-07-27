@@ -16,25 +16,26 @@ class Rover {
     this.generatorWatts = 110;
   }
     // create receiveMessage(message) method
-  receiveMessage(message){
+  receiveMessage(messages){
     let results = [];
-    let body = message.name
-    for(let i = 0; i < message.commands.length; i ++){
-      if(message.commands[i].commandType === 'STATUS_CHECK'){
+    let message = messages.name
+    for(let i = 0; i < messages.commands.length; i ++){
+      if(messages.commands[i].commandType === 'STATUS_CHECK'){
         results.push({completed: true, roverStatus: {mode: this.mode, position: this.position, generatorWatts: this.generatorWatts,}});
-      }else if(message.commands[i].commandType === 'MODE_CHANGE'){
-        results.push({completed: true, roverStatus: {mode: message.commands[i].value, position: this.position, generatorWatts: this.generatorWatts,}});
-        this.mode = message.commands[i].value
+      }else if(messages.commands[i].commandType === 'MODE_CHANGE'){
+        results.push({completed: true, roverStatus: {mode: messages.commands[i].value, position: this.position, generatorWatts: this.generatorWatts,}});
+        this.mode = messages.commands[i].value
         // console.log(message.commands[i].commandType);
-      }else if(message.commands[i].commandType === 'MOVE'){
+      }else if(messages.commands[i].commandType === 'MOVE'){
         // console.log("###################")
         if(this.mode === 'LOW_POWER'){
           // console.log("###################")
         results.push({completed: false, roverStatus: {mode: this.mode, position: this.position, generatorWatts: this.generatorWatts,}});
-        // console.log(results)
+        // console.log(results.roverStatus.position);
         }else{
-          results.push({completed: true, roverStatus: {mode: this.mode, position: message.commands[i].value, generatorWatts: this.generatorWatts,}});
-          // console.log(message.commands[i]);
+          this.position = messages.commands[i].value
+          results.push({completed: true, roverStatus: {mode: this.mode, position: messages.commands[i].value, generatorWatts: this.generatorWatts,}});
+          // console.log(messages.commands[i].value);
           // console.log(message.commands[i].position);
           // this.position = message.commands[i].position
         }
@@ -42,7 +43,7 @@ class Rover {
      
     };
     // console.log({body, results});
-    return {body,results}
+    return {message,results}
   }
 
 
